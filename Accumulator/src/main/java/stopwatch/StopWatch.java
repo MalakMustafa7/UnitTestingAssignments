@@ -1,41 +1,48 @@
 package stopwatch;
 public class StopWatch {
-    private int minutes=0;
-    private int hours = 0;
-    private int days = 0;
-    private int dailyWorkingHours=24 ;
-    public StopWatch(){
+    private int minutes;
+    private int hours;
+    private int days;
+    private final int dailyWorkingHours;
 
+    public StopWatch() {
+        this(24);
     }
-    public StopWatch(int dailyWorkingHours){
-        this.dailyWorkingHours=dailyWorkingHours;
+
+    public StopWatch(int dailyWorkingHours) {
+        if (dailyWorkingHours <= 0) {
+            throw new IllegalArgumentException("Daily working hours must be greater than zero.");
+        }
+        this.dailyWorkingHours = dailyWorkingHours;
     }
 
     public void record(int minutes) {
         if (minutes < 0) return;
 
         this.minutes += minutes;
-
-        if (this.minutes >= 60) {
-            this.hours += this.minutes / 60;
-            this.minutes = this.minutes % 60;
-        }
-
-        if (this.hours >= dailyWorkingHours) {
-            this.days += this.hours / dailyWorkingHours;
-            this.hours = this.hours % dailyWorkingHours;
-        }
-
+        updateTimeUnits();
     }
 
-    public int getMinutes(){
-        return this.minutes;
+    private void updateTimeUnits() {
+        if (minutes >= 60) {
+            hours += minutes / 60;
+            minutes %= 60;
+        }
+        if (hours >= dailyWorkingHours) {
+            days += hours / dailyWorkingHours;
+            hours %= dailyWorkingHours;
+        }
+    }
+
+    public int getMinutes() {
+        return minutes;
     }
 
     public int getHours() {
-        return this.hours;
+        return hours;
     }
-    public  int getDays(){
-        return this.days;
+
+    public int getDays() {
+        return days;
     }
 }

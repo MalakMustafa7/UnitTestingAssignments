@@ -48,5 +48,15 @@ public class StopWatchTest {
 
     }
 
+    @Test
+    void  shouldThrowIllegalArgumentExceptionWhenGivenInValidDailyWorkingHours(){
+        assertThatThrownBy(() -> new StopWatch(0))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("greater than zero");
+
+        assertThatThrownBy(() -> new StopWatch(-5))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("greater than zero");
+    }
 
 }
